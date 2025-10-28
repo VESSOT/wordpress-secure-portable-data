@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: VESSOT Secure Portable Data
- * Plugin URI: https://vessot.tech
+ * Plugin URI: https://vessot.tech/wordpress
  * Description: Zero visibility data storage and consolidation with client-side encryption
  * Version: 1.0.0
  * Author: VESSOT
