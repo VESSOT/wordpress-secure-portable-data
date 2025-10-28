@@ -116,17 +116,40 @@ add_action('admin_menu', 'vessot_secure_portable_data_admin_menu');
  * Render settings page
  */
 function vessot_secure_portable_data_settings_page() {
+    // Only allow administrators to view this page
+    if (!current_user_can('manage_options')) {
+        wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'vessot-secure-portable-data'));
+    }
+
     $readme_file = VESSOT_SECURE_PORTABLE_DATA_PLUGIN_DIR . 'README.md';
     $readme_content = file_exists($readme_file) ? file_get_contents($readme_file) : '';
 
     // Convert markdown to HTML (basic conversion)
     $html_content = vessot_secure_portable_data_markdown_to_html($readme_content);
 
+    // Define allowed HTML tags for the documentation
+    $allowed_html = array(
+        'h1' => array(),
+        'h2' => array(),
+        'h3' => array(),
+        'h4' => array(),
+        'p' => array(),
+        'a' => array('href' => array(), 'target' => array(), 'rel' => array()),
+        'strong' => array(),
+        'em' => array(),
+        'ul' => array(),
+        'ol' => array(),
+        'li' => array(),
+        'pre' => array(),
+        'code' => array(),
+        'br' => array(),
+    );
+
     ?>
     <div class="wrap">
         <h1><?php echo esc_html__('VESSOT Secure Portable Data - Documentation', 'vessot-secure-portable-data'); ?></h1>
         <div class="vessot-readme-content" style="background: #fff; padding: 20px; margin-top: 20px; border: 1px solid #ccd0d4; box-shadow: 0 1px 1px rgba(0,0,0,.04);">
-            <?php echo $html_content; ?>
+            <?php echo wp_kses($html_content, $allowed_html); ?>
         </div>
     </div>
     <style>

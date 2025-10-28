@@ -1,6 +1,16 @@
+=== VESSOT Secure Portable Data ===
+Contributors: vessot
+Tags: encryption, security, data storage, api
+Requires at least: 5.8
+Tested up to: 6.8
+Requires PHP: 8.2
+Stable tag: 1.0.0
+License: MIT
+License URI: https://opensource.org/licenses/MIT
+
 # VESSOT Secure Portable Data - WordPress Plugin
 
-A WordPress plugin for zero visibility data storage and consolidation with client-side encryption. Built on the VESSOT platform.
+Zero visibility data storage with client-side encryption via the VESSOT platform.
 
 ## Description
 
