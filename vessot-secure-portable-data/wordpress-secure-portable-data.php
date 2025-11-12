@@ -102,15 +102,103 @@ register_activation_hook(__FILE__, 'vessot_secure_portable_data_activate');
  * Add settings page to admin menu
  */
 function vessot_secure_portable_data_admin_menu() {
-    add_options_page(
+    $hook = add_options_page(
         esc_html__('VESSOT Secure Portable Data', 'vessot-secure-portable-data'),
         esc_html__('VESSOT Secure Portable Data', 'vessot-secure-portable-data'),
         'manage_options',
         'vessot-secure-portable-data',
         'vessot_secure_portable_data_settings_page'
     );
+
+    // Enqueue styles only on this plugin's settings page
+    add_action('admin_print_styles-' . $hook, 'vessot_secure_portable_data_enqueue_admin_styles');
 }
 add_action('admin_menu', 'vessot_secure_portable_data_admin_menu');
+
+/**
+ * Enqueue admin styles for settings page
+ */
+function vessot_secure_portable_data_enqueue_admin_styles() {
+    $custom_css = "
+        .vessot-readme-content {
+            background: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #ccd0d4;
+            box-shadow: 0 1px 1px rgba(0,0,0,.04);
+        }
+        .vessot-readme-content h1 {
+            font-size: 2em;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+        }
+        .vessot-readme-content h2 {
+            font-size: 1.5em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+        }
+        .vessot-readme-content h3 {
+            font-size: 1.25em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        .vessot-readme-content h4 {
+            font-size: 1.1em;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        .vessot-readme-content pre {
+            background: #f6f8fa;
+            padding: 16px;
+            overflow: auto;
+            border-radius: 3px;
+            border: 1px solid #e1e4e8;
+        }
+        .vessot-readme-content code {
+            background: #f6f8fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .vessot-readme-content pre code {
+            background: none;
+            padding: 0;
+        }
+        .vessot-readme-content ul,
+        .vessot-readme-content ol {
+            padding-left: 2em;
+            margin: 1em 0;
+            list-style-position: outside;
+        }
+        .vessot-readme-content ul {
+            list-style-type: disc;
+        }
+        .vessot-readme-content ol {
+            list-style-type: decimal;
+        }
+        .vessot-readme-content li {
+            margin: 0.5em 0;
+            display: list-item;
+        }
+        .vessot-readme-content p {
+            margin: 1em 0;
+            line-height: 1.6;
+        }
+        .vessot-readme-content a {
+            color: #0073aa;
+            text-decoration: none;
+        }
+        .vessot-readme-content a:hover {
+            text-decoration: underline;
+        }
+    ";
+
+    wp_register_style('vessot-secure-portable-data-admin', false);
+    wp_enqueue_style('vessot-secure-portable-data-admin');
+    wp_add_inline_style('vessot-secure-portable-data-admin', $custom_css);
+}
 
 /**
  * Render settings page
@@ -148,26 +236,10 @@ function vessot_secure_portable_data_settings_page() {
     ?>
     <div class="wrap">
         <h1><?php echo esc_html__('VESSOT Secure Portable Data - Documentation', 'vessot-secure-portable-data'); ?></h1>
-        <div class="vessot-readme-content" style="background: #fff; padding: 20px; margin-top: 20px; border: 1px solid #ccd0d4; box-shadow: 0 1px 1px rgba(0,0,0,.04);">
+        <div class="vessot-readme-content">
             <?php echo wp_kses($html_content, $allowed_html); ?>
         </div>
     </div>
-    <style>
-        .vessot-readme-content h1 { font-size: 2em; margin-top: 0.67em; margin-bottom: 0.67em; }
-        .vessot-readme-content h2 { font-size: 1.5em; margin-top: 1em; margin-bottom: 0.5em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
-        .vessot-readme-content h3 { font-size: 1.25em; margin-top: 1em; margin-bottom: 0.5em; }
-        .vessot-readme-content h4 { font-size: 1.1em; margin-top: 1em; margin-bottom: 0.5em; }
-        .vessot-readme-content pre { background: #f6f8fa; padding: 16px; overflow: auto; border-radius: 3px; border: 1px solid #e1e4e8; }
-        .vessot-readme-content code { background: #f6f8fa; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
-        .vessot-readme-content pre code { background: none; padding: 0; }
-        .vessot-readme-content ul, .vessot-readme-content ol { padding-left: 2em; margin: 1em 0; list-style-position: outside; }
-        .vessot-readme-content ul { list-style-type: disc; }
-        .vessot-readme-content ol { list-style-type: decimal; }
-        .vessot-readme-content li { margin: 0.5em 0; display: list-item; }
-        .vessot-readme-content p { margin: 1em 0; line-height: 1.6; }
-        .vessot-readme-content a { color: #0073aa; text-decoration: none; }
-        .vessot-readme-content a:hover { text-decoration: underline; }
-    </style>
     <?php
 }
 
