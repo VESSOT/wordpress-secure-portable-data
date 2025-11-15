@@ -4,7 +4,7 @@ Tags: encryption, security, data storage, api
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 8.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -265,11 +265,51 @@ Generate a new encryption key. Returns empty string if key already exists in env
 
 **Returns:** Encryption key or empty string
 
+## External Services
+
+This plugin connects to the VESSOT API (https://vessot.tech/api) to store and retrieve encrypted data.
+
+### What is VESSOT?
+
+VESSOT is a third-party encrypted data storage service that provides zero-knowledge data storage. The service is provided by VESSOT.
+
+### What data is sent?
+
+The plugin sends the following data to the VESSOT API:
+
+- **Encrypted data values**: All data is encrypted client-side using AES-256-GCM encryption before transmission. The VESSOT API only receives encrypted ciphertext and never has access to your encryption keys or unencrypted data.
+- **Data keys**: Unique identifiers you specify for each piece of data (e.g., "user_settings", "preferences").
+- **Authentication token**: Your VESSOT_INT_TOKEN for API authentication.
+
+### When is data sent?
+
+Data is transmitted to the VESSOT API when you use any of these functions:
+
+- `vessot_secure_portable_data()->store()` - Sends encrypted data to be stored
+- `vessot_secure_portable_data()->show()` - Retrieves encrypted data
+- `vessot_secure_portable_data()->update()` - Sends encrypted data updates
+- `vessot_secure_portable_data()->destroy()` - Requests data deletion
+
+### Service Information
+
+- **Service Provider**: VESSOT
+- **Service Website**: https://vessot.tech
+- **Terms of Service**: https://vessot.tech/terms-conditions
+- **Privacy Policy**: https://vessot.tech/privacy-policy
+- **API Documentation**: https://vessot.tech/setup
+- **WordPress Setup Guide**: https://vessot.tech/wordpress
+
+### Account Requirement
+
+You must create a VESSOT account at https://vessot.tech before using this plugin. See https://vessot.tech/how-it-works for account creation steps and https://vessot.tech/wordpress for WordPress-specific setup instructions.
+
 ## Security Notes
 
 - All encryption happens client-side before transmission
 - The VESSOT API never has access to unencrypted data or encryption keys
 - Environment variables are set at the server level and never touch the filesystem
+- Each environment should have its own unique tokens and keys
+- Server configuration changes require appropriate restart (Apache reload, PHP-FPM restart, etc.)
 
 ## Support
 
