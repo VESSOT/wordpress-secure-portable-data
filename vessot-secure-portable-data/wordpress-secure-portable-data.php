@@ -195,7 +195,7 @@ function vessot_secure_portable_data_enqueue_admin_styles() {
         }
     ";
 
-    wp_register_style('vessot-secure-portable-data-admin', false);
+    wp_register_style('vessot-secure-portable-data-admin', false, array(), VESSOT_SECURE_PORTABLE_DATA_VERSION);
     wp_enqueue_style('vessot-secure-portable-data-admin');
     wp_add_inline_style('vessot-secure-portable-data-admin', $custom_css);
 }
