@@ -251,6 +251,10 @@ function vessot_secure_portable_data_markdown_to_html($markdown) {
         return '<p>README file not found.</p>';
     }
 
+    // Remove WordPress.org plugin header section (=== Plugin Name === until the # title)
+    // This removes everything from === until we hit a line starting with #
+    $markdown = preg_replace('/^===.*?\n\n(?=#)/s', '', $markdown);
+
     // Escape HTML first
     $html = htmlspecialchars($markdown, ENT_QUOTES, 'UTF-8');
 
